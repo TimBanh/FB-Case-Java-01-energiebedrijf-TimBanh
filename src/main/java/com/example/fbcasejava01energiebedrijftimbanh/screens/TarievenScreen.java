@@ -10,10 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 import java.time.LocalDate;
 
@@ -70,8 +68,8 @@ public class TarievenScreen {
             Stroom stroom = new Stroom(stroomTarief, tariefBeginDatum, tariefEindDatum);
             Gas gas = new Gas(gasTarief,tariefBeginDatum,tariefEindDatum);
 
-            controller.addEnegieToList(stroom);
-            controller.addEnegieToList(gas);
+            controller.addEnergieToList(stroom);
+            controller.addEnergieToList(gas);
         });
 
         btnVebruikScreen.setOnAction(goToVerbuik -> {

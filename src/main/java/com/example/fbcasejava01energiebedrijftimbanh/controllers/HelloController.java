@@ -3,15 +3,13 @@ package com.example.fbcasejava01energiebedrijftimbanh.controllers;
 import com.example.fbcasejava01energiebedrijftimbanh.models.Energie;
 import com.example.fbcasejava01energiebedrijftimbanh.models.Klant;
 import com.example.fbcasejava01energiebedrijftimbanh.models.Verbruik;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 
 import java.util.ArrayList;
 
 public class HelloController {
     private ArrayList<Klant>klantenLijst = new ArrayList<Klant>();
     private ArrayList<Energie> energieTarieven = new ArrayList<Energie>();
-    private ArrayList<Verbruik> verbuikLijst = new ArrayList<Verbruik>();
+    private ArrayList<Verbruik> verbruikLijst = new ArrayList<Verbruik>();
 
     public void addKlantToList(Klant klant){
         if (klantenLijst.isEmpty()) {
@@ -31,7 +29,7 @@ public class HelloController {
         }
     }
 
-    public void addEnegieToList(Energie energie){
+    public void addEnergieToList(Energie energie){
         if (energieTarieven.isEmpty()) {
             energieTarieven.add(energie);
             System.out.println(energieTarieven);
@@ -39,11 +37,29 @@ public class HelloController {
         }
 
         for (Energie energies: energieTarieven) {
-            if (energie.getBeginDatum() == energies.getBeginDatum() && energie.getEindDatum() ==energies.getEindDatum()) {
+            if (energie.getBeginDatum() == energies.getBeginDatum() && energie.getEindDatum() == energies.getEindDatum()) {
                 System.out.println("Energie bestaat al");
             } else {
                 energieTarieven.add(energie);
                 System.out.println(energieTarieven);
+                break;
+            }
+        }
+    }
+
+    public void addVerbruikToList(Verbruik verbruik){
+        if (verbruikLijst.isEmpty()) {
+            verbruikLijst.add(verbruik);
+            System.out.println(verbruikLijst);
+            return;
+        }
+
+        for (Verbruik verbruiken: verbruikLijst) {
+            if (verbruik.getBegindatum() == verbruiken.getBegindatum() && verbruik.getEindDatum() == verbruiken.getEindDatum()) {
+                System.out.println("Verbruik bestaat al");
+            } else {
+                verbruikLijst.add(verbruik);
+                System.out.println(verbruikLijst);
                 break;
             }
         }
