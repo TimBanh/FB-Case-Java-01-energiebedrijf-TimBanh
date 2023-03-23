@@ -20,7 +20,7 @@ import java.time.LocalDate;
 public class VerbruikScreen {
     private final Scene verbruikScene;
 
-    private HelloController controller = new HelloController();
+    private HelloController controller = HelloApplication.controller;
 
     public VerbruikScreen() {
         Pane container = new Pane();
@@ -46,7 +46,7 @@ public class VerbruikScreen {
         DatePicker tfDatumEind = new DatePicker();
 
         Button sendKlantInfo = new Button("Zend");
-        Button btnKlantRegScreen = new Button("Klant");
+        Button btnWekelijksVerbruik = new Button("Wekelijks Verbruik");
 
         verbruikGrid.add(lblStroomPerKwh,0,0);
         verbruikGrid.add(tfStroomPerkwh,1,0);
@@ -57,7 +57,7 @@ public class VerbruikScreen {
         verbruikGrid.add(lblDatumEind,0,3);
         verbruikGrid.add(tfDatumEind,1,3);
         verbruikGrid.add(sendKlantInfo,0,4);
-        verbruikGrid.add(btnKlantRegScreen,1,4);
+        verbruikGrid.add(btnWekelijksVerbruik,1,4);
 
         verbruikGrid.setAlignment(Pos.CENTER);
 
@@ -73,8 +73,8 @@ public class VerbruikScreen {
 
         });
 
-        btnKlantRegScreen.setOnAction(klantScreen -> {
-            HelloApplication.stage.setScene(new KlantRegScreen(HelloApplication.stage).getKlantReg());
+        btnWekelijksVerbruik.setOnAction(wekelijkVerbruikScreen -> {
+            HelloApplication.stage.setScene(new WekelijkVerbruikScreen().getWekelijkVerbruik());
         });
 
         verbruikScene = new Scene(container);

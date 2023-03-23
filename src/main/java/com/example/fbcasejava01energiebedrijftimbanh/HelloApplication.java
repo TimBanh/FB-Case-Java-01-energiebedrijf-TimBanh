@@ -1,5 +1,6 @@
 package com.example.fbcasejava01energiebedrijftimbanh;
 
+import com.example.fbcasejava01energiebedrijftimbanh.controllers.HelloController;
 import com.example.fbcasejava01energiebedrijftimbanh.screens.KlantRegScreen;
 import com.example.fbcasejava01energiebedrijftimbanh.screens.VerbruikScreen;
 import javafx.application.Application;
@@ -14,6 +15,8 @@ public class HelloApplication extends Application {
     public static Stage stage;
     public static int globalWidth = 1200;
     public static int globalHeight = 650;
+
+    public static HelloController controller = new HelloController();
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = stage;

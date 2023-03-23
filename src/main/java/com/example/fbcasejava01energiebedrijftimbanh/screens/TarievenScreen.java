@@ -18,7 +18,7 @@ import java.time.LocalDate;
 public class TarievenScreen {
 
     private final Scene tarievenScene;
-    private HelloController controller = new HelloController();
+    private HelloController controller = HelloApplication.controller;
 
     public TarievenScreen() {
         Pane tariefContainer = new Pane();
@@ -68,7 +68,7 @@ public class TarievenScreen {
             Stroom stroom = new Stroom(stroomTarief, tariefBeginDatum, tariefEindDatum);
             Gas gas = new Gas(gasTarief,tariefBeginDatum,tariefEindDatum);
 
-            controller.addEnergieToList(stroom);
+//            controller.addEnergieToList(stroom);
             controller.addEnergieToList(gas);
         });
 

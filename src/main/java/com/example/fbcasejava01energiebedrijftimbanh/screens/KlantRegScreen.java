@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 public class KlantRegScreen {
     private final Scene klantRegScene;
-    private HelloController controller = new HelloController();
+    private HelloController controller = HelloApplication.controller;
 
     public KlantRegScreen (Stage stage) {
         Pane container = new Pane();

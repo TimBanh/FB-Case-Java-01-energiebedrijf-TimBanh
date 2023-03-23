@@ -13,6 +13,9 @@ public class Energie {
         this.eindDatum = eindDatum;
     }
 
+    public Energie() {
+    }
+
     @Override
     public String toString() {
         return "Energie{" +

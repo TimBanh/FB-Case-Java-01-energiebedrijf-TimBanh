@@ -1,9 +1,11 @@
 package com.example.fbcasejava01energiebedrijftimbanh.controllers;
 
 import com.example.fbcasejava01energiebedrijftimbanh.models.Energie;
+import com.example.fbcasejava01energiebedrijftimbanh.models.Gas;
 import com.example.fbcasejava01energiebedrijftimbanh.models.Klant;
 import com.example.fbcasejava01energiebedrijftimbanh.models.Verbruik;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class HelloController {
@@ -63,5 +65,36 @@ public class HelloController {
                 break;
             }
         }
+    }
+
+    public Klant getKlantByNumber(int klantNummer) {
+        if (klantenLijst.isEmpty()) {
+            System.out.println("Klantenlijst is leeg");
+        } else {
+            for (Klant klant : klantenLijst) {
+                if (klant.getKlantnummer() == klantNummer) {
+                    return klant;
+                } else {
+                    System.out.println("Klant niet gevonden");
+                }
+            }
+        }
+        return null;
+    }
+
+    public Energie getGasTariefByWeek(LocalDate begindatum, LocalDate eindDatum) {
+        if (energieTarieven.isEmpty()) {
+            System.out.println("Klantenlijst is leeg");
+        } else {
+            for (Energie energie : energieTarieven) {
+                if (energie.getBeginDatum().equals(begindatum) && energie.getEindDatum().equals(eindDatum)) {
+                    Gas gas = energie;
+                    return energie;
+                } else {
+                    System.out.println("Niet gevonden");
+                }
+            }
+        }
+        return null;
     }
 }

@@ -13,6 +13,10 @@ public class Klant {
         this.jaVoorschot = jaOverschot;
     }
 
+    public Klant(int klantnummer) {
+        this.klantnummer = klantnummer;
+    }
+
     public int getKlantnummer() {
         return klantnummer;
     }
