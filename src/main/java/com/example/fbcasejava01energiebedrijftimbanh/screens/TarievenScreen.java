@@ -45,6 +45,8 @@ public class TarievenScreen {
 
         Button sendTarief = new Button("Zend");
         Button btnVebruikScreen = new Button("Verbruik");
+        Button btnKlantRegScreen = new Button("Klanten");
+        Button btnWekelijksVerbruik = new Button("Wekelijks Verbruik");
 
         tariefGrid.add(lblTariefStroom, 0,0);
         tariefGrid.add(tfTariefStroom,1,0);
@@ -55,7 +57,9 @@ public class TarievenScreen {
         tariefGrid.add(lblEindDatum,0,3);
         tariefGrid.add(tfEindDatum,1,3);
         tariefGrid.add(sendTarief,0,4);
-        tariefGrid.add(btnVebruikScreen,1,4);
+        tariefGrid.add(btnKlantRegScreen,1,4);
+        tariefGrid.add(btnVebruikScreen,2,4);
+        tariefGrid.add(btnWekelijksVerbruik,3,4);
 
         tariefGrid.setAlignment(Pos.CENTER);
 
@@ -66,14 +70,24 @@ public class TarievenScreen {
             LocalDate tariefEindDatum = tfEindDatum.getValue();
 
             Stroom stroom = new Stroom(stroomTarief, tariefBeginDatum, tariefEindDatum);
-            Gas gas = new Gas(gasTarief,tariefBeginDatum,tariefEindDatum);
+            controller.addStroomToEnergyTarieven(stroom);
 
-//            controller.addEnergieToList(stroom);
-            controller.addEnergieToList(gas);
+            Gas gas = new Gas(gasTarief,tariefBeginDatum,tariefEindDatum);
+            controller.addGasToEnergyTarieven(gas);
+
+        });
+
+        btnKlantRegScreen.setOnAction(goToKlant -> {
+            HelloApplication.stage.setScene(new KlantRegScreen(HelloApplication.stage).getKlantReg());
         });
 
         btnVebruikScreen.setOnAction(goToVerbuik -> {
             HelloApplication.stage.setScene(new VerbruikScreen().getVerbruikScreen());
+        });
+
+        btnWekelijksVerbruik.setOnAction(goToWekelijkVerbruik -> {
+            HelloApplication.stage.setScene(new WekelijkVerbruikScreen().getWekelijkVerbruik());
+
         });
 
         tarievenScene = new Scene(tariefContainer);

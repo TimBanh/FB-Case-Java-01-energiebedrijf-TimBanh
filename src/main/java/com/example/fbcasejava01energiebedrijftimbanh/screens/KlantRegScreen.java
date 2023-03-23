@@ -42,6 +42,8 @@ public class KlantRegScreen {
 
         Button sendKlantInfo = new Button("Zend");
         Button btnTariefScreen = new Button("Tarieven");
+        Button btnVebruikScreen = new Button("Verbruik");
+        Button btnWekelijksVerbruik = new Button("Wekelijks Verbruik");
 
         gridPane.add(lblKlantNumer,0,0);
         gridPane.add(tfKlantNummer,1,0);
@@ -53,6 +55,8 @@ public class KlantRegScreen {
         gridPane.add(tfJaVoorschot,1,3);
         gridPane.add(sendKlantInfo,0,4);
         gridPane.add(btnTariefScreen,1,4);
+        gridPane.add(btnVebruikScreen,2,4);
+        gridPane.add(btnWekelijksVerbruik,3,4);
 
         gridPane.setAlignment(Pos.CENTER);
 
@@ -68,6 +72,13 @@ public class KlantRegScreen {
 
         btnTariefScreen.setOnAction(goToTarief -> {
             HelloApplication.stage.setScene(new TarievenScreen().getTarievenScene());
+        });
+
+        btnVebruikScreen.setOnAction(goToVerbuik -> {
+            HelloApplication.stage.setScene(new VerbruikScreen().getVerbruikScreen());
+        });
+        btnWekelijksVerbruik.setOnAction(wekelijkVerbruikScreen -> {
+            HelloApplication.stage.setScene(new WekelijkVerbruikScreen().getWekelijkVerbruik());
         });
 
         klantRegScene = new Scene(container);

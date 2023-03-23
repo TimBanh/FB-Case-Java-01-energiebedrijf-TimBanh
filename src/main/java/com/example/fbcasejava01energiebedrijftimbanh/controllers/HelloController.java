@@ -1,9 +1,6 @@
 package com.example.fbcasejava01energiebedrijftimbanh.controllers;
 
-import com.example.fbcasejava01energiebedrijftimbanh.models.Energie;
-import com.example.fbcasejava01energiebedrijftimbanh.models.Gas;
-import com.example.fbcasejava01energiebedrijftimbanh.models.Klant;
-import com.example.fbcasejava01energiebedrijftimbanh.models.Verbruik;
+import com.example.fbcasejava01energiebedrijftimbanh.models.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,22 +28,40 @@ public class HelloController {
         }
     }
 
-    public void addEnergieToList(Energie energie){
+    public void addGasToEnergyTarieven(Gas gas) {
         if (energieTarieven.isEmpty()) {
-            energieTarieven.add(energie);
+            energieTarieven.add(gas);
             System.out.println(energieTarieven);
             return;
         }
 
-        for (Energie energies: energieTarieven) {
-            if (energie.getBeginDatum() == energies.getBeginDatum() && energie.getEindDatum() == energies.getEindDatum()) {
-                System.out.println("Energie bestaat al");
-            } else {
-                energieTarieven.add(energie);
-                System.out.println(energieTarieven);
-                break;
+        for (Energie energies : energieTarieven) {
+            if (energies instanceof Gas && gas.getBeginDatum().equals(energies.getBeginDatum()) && gas.getEindDatum().equals(energies.getEindDatum())) {
+                System.out.println("Gas bestaat al");
+                return;
             }
         }
+
+        energieTarieven.add(gas);
+        System.out.println(energieTarieven);
+    }
+
+    public void addStroomToEnergyTarieven(Stroom stroom) {
+        if (energieTarieven.isEmpty()) {
+            energieTarieven.add(stroom);
+            System.out.println(energieTarieven);
+            return;
+        }
+
+        for (Energie energies : energieTarieven) {
+            if (energies instanceof Gas && stroom.getBeginDatum().equals(energies.getBeginDatum()) && stroom.getEindDatum().equals(energies.getEindDatum())) {
+                System.out.println("Stroom bestaat al");
+                return;
+            }
+        }
+
+        energieTarieven.add(stroom);
+        System.out.println(energieTarieven);
     }
 
     public void addVerbruikToList(Verbruik verbruik){
@@ -82,19 +97,42 @@ public class HelloController {
         return null;
     }
 
-    public Energie getGasTariefByWeek(LocalDate begindatum, LocalDate eindDatum) {
+
+
+    public Gas getGasTariefByWeek(LocalDate begindatum, LocalDate eindDatum) {
         if (energieTarieven.isEmpty()) {
-            System.out.println("Klantenlijst is leeg");
+            System.out.println("Energie tarieven is leeg");
+        }
+
+        ArrayList<Gas> gases = new ArrayList<>();
+
+        for (Energie energie: energieTarieven) {
+            if (energie instanceof Gas) {
+                gases.add((Gas)energie);
+            }
+        }
+
+        for (Gas gas: gases) {
+            if (gas.getBeginDatum().equals(begindatum) && gas.getEindDatum().equals(eindDatum)) {
+                return gas;
+            }
+        }
+
+        System.out.println("Niet gevonden");
+        return null;
+    }
+
+    public Energie getStroomTariefByWeek(LocalDate begindatum, LocalDate eindDatum) {
+        if (energieTarieven.isEmpty()) {
+            System.out.println("Energie tarieven is leeg");
         } else {
             for (Energie energie : energieTarieven) {
-                if (energie.getBeginDatum().equals(begindatum) && energie.getEindDatum().equals(eindDatum)) {
-                    Gas gas = energie;
+                if (energie instanceof Stroom && energie.getBeginDatum().equals(begindatum) && energie.getEindDatum().equals(eindDatum)) {
                     return energie;
-                } else {
-                    System.out.println("Niet gevonden");
                 }
             }
         }
+        System.out.println("Niet gevonden");
         return null;
     }
 }

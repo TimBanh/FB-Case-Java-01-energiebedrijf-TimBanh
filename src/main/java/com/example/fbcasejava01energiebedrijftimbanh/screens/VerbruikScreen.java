@@ -45,7 +45,9 @@ public class VerbruikScreen {
         Label lblDatumEind = new Label("Datum eindperiode: ");
         DatePicker tfDatumEind = new DatePicker();
 
-        Button sendKlantInfo = new Button("Zend");
+        Button sendVebruikInfo = new Button("Zend");
+        Button btnKlantRegScreen = new Button("Klanten");
+        Button btnTariefScreen = new Button("Tarieven");
         Button btnWekelijksVerbruik = new Button("Wekelijks Verbruik");
 
         verbruikGrid.add(lblStroomPerKwh,0,0);
@@ -56,12 +58,14 @@ public class VerbruikScreen {
         verbruikGrid.add(tfDatumStart,1,2);
         verbruikGrid.add(lblDatumEind,0,3);
         verbruikGrid.add(tfDatumEind,1,3);
-        verbruikGrid.add(sendKlantInfo,0,4);
-        verbruikGrid.add(btnWekelijksVerbruik,1,4);
+        verbruikGrid.add(sendVebruikInfo,0,4);
+        verbruikGrid.add(btnKlantRegScreen,1,4);
+        verbruikGrid.add(btnTariefScreen,2,4);
+        verbruikGrid.add(btnWekelijksVerbruik,3,4);
 
         verbruikGrid.setAlignment(Pos.CENTER);
 
-        sendKlantInfo.setOnAction(regKlant-> {
+        sendVebruikInfo.setOnAction(verbruikReg-> {
             double stroomInKwh =  Double.parseDouble(tfStroomPerkwh.getText());
             double gasPerM3 = Double.parseDouble(tfGasPerM3.getText());
             LocalDate startPeriode = tfDatumStart.getValue();
@@ -71,6 +75,14 @@ public class VerbruikScreen {
 
             controller.addVerbruikToList(verbruik);
 
+        });
+
+        btnKlantRegScreen.setOnAction(goToKlant -> {
+            HelloApplication.stage.setScene(new KlantRegScreen(HelloApplication.stage).getKlantReg());
+        });
+
+        btnTariefScreen.setOnAction(goToTarief -> {
+            HelloApplication.stage.setScene(new TarievenScreen().getTarievenScene());
         });
 
         btnWekelijksVerbruik.setOnAction(wekelijkVerbruikScreen -> {
