@@ -15,6 +15,9 @@ public class Verbruik {
         this.eindDatum = eindDatum;
     }
 
+    public Verbruik() {
+    }
+
     public double getStroomPerkwh() {
         return stroomPerkwh;
     }

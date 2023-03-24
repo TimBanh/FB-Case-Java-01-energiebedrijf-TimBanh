@@ -9,6 +9,7 @@ public class HelloController {
     private ArrayList<Klant>klantenLijst = new ArrayList<Klant>();
     private ArrayList<Energie> energieTarieven = new ArrayList<Energie>();
     private ArrayList<Verbruik> verbruikLijst = new ArrayList<Verbruik>();
+    private double wekelijkVerbruik;
 
     public void addKlantToList(Klant klant){
         if (klantenLijst.isEmpty()) {
@@ -122,17 +123,61 @@ public class HelloController {
         return null;
     }
 
-    public Energie getStroomTariefByWeek(LocalDate begindatum, LocalDate eindDatum) {
+    public Stroom getStroomTariefByWeek(LocalDate begindatum, LocalDate eindDatum) {
         if (energieTarieven.isEmpty()) {
             System.out.println("Energie tarieven is leeg");
-        } else {
-            for (Energie energie : energieTarieven) {
-                if (energie instanceof Stroom && energie.getBeginDatum().equals(begindatum) && energie.getEindDatum().equals(eindDatum)) {
-                    return energie;
-                }
+        }
+
+        ArrayList<Stroom> stromen = new ArrayList<>();
+
+        for (Energie energie: energieTarieven) {
+            if (energie instanceof Stroom) {
+                stromen.add((Stroom) energie);
             }
         }
+
+        for (Stroom stroom: stromen) {
+            if (stroom.getBeginDatum().equals(begindatum) && stroom.getEindDatum().equals(eindDatum)) {
+                return stroom;
+            }
+        }
+
         System.out.println("Niet gevonden");
         return null;
+    }
+
+    public Verbruik getVerbruikByWeek(LocalDate beginDatum, LocalDate eindDatum) {
+        if (verbruikLijst.isEmpty()) {
+            System.out.println("Verbruik is leeg");
+        }
+
+        for (Verbruik verbruik: verbruikLijst) {
+            if (verbruik.getBegindatum().equals(beginDatum) && verbruik.getEindDatum().equals(eindDatum)) {
+                return verbruik;
+            }
+        }
+
+        System.out.println("Verbruik niet gevonden");
+        return null;
+    }
+
+    public double calculateWekelijksVerbruik (LocalDate beginDatum, LocalDate eindDatum, int klantNummer) {
+        Verbruik verbruik = getVerbruikByWeek(beginDatum,eindDatum);
+        Gas gas = getGasTariefByWeek(beginDatum,eindDatum);
+        Stroom stroom = getStroomTariefByWeek(beginDatum,eindDatum);
+        Klant klant = getKlantByNumber(klantNummer);
+        double klantJaOverschot = klant.getJaOverschot();
+        double wekelijkGasVerbruik = verbruik.getGasPerM3() * gas.getTarief();
+        double wekelijkStroomVerbruik = verbruik.getStroomPerkwh() * stroom.getTarief();
+
+        wekelijkVerbruik = klantJaOverschot - (wekelijkGasVerbruik + wekelijkStroomVerbruik);
+
+        if (wekelijkVerbruik <= klant.getJaOverschot()) {
+            System.out.println("Klant verbruik is onder het jaar overschot");
+            return wekelijkVerbruik;
+        }
+
+        System.out.println("Klant verbruik is hoger dan het jaar overschot");
+        return wekelijkVerbruik;
     }
 }

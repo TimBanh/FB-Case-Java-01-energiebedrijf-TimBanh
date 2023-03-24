@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -61,13 +60,20 @@ public class KlantRegScreen {
         gridPane.setAlignment(Pos.CENTER);
 
         sendKlantInfo.setOnAction(regKlant-> {
-            int klantNr =  Integer.parseInt(tfKlantNummer.getText());
-            String voorNm = tfVoornaam.getText();
-            String achterNm = tfAchternaam.getText();
-            double jaarlijkVoorschot = Double.parseDouble(tfJaVoorschot.getText());
+            if (tfKlantNummer.getText().isEmpty()
+                    || tfVoornaam.getText().isEmpty()
+                    || tfAchternaam.getText().isEmpty()
+                    || tfJaVoorschot.getText().isEmpty()) {
+                ErrorScreen.display("Velden", "Niet alle velden zijn ingevuld");
+            } else {
+                int klantNr = Integer.parseInt(tfKlantNummer.getText());
+                String voorNm = tfVoornaam.getText();
+                String achterNm = tfAchternaam.getText();
+                double jaarlijkVoorschot = Double.parseDouble(tfJaVoorschot.getText());
 
-            Klant klant = new Klant(klantNr,voorNm,achterNm,jaarlijkVoorschot);
-            controller.addKlantToList(klant);
+                Klant klant = new Klant(klantNr, voorNm, achterNm, jaarlijkVoorschot);
+                controller.addKlantToList(klant);
+            }
         });
 
         btnTariefScreen.setOnAction(goToTarief -> {

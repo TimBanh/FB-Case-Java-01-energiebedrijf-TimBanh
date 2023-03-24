@@ -64,17 +64,24 @@ public class TarievenScreen {
         tariefGrid.setAlignment(Pos.CENTER);
 
         sendTarief.setOnAction(regTarief -> {
-            double stroomTarief = Double.parseDouble(tfTariefStroom.getText());
-            double gasTarief = Double.parseDouble(tfTariefGas.getText());
-            LocalDate tariefBeginDatum = tfBeginDatum.getValue();
-            LocalDate tariefEindDatum = tfEindDatum.getValue();
+            if (tfTariefGas.getText().isEmpty()
+                || tfTariefStroom.getText().isEmpty()
+                || tfBeginDatum.getValue().toString().isEmpty()
+                || tfEindDatum.getValue().toString().isEmpty()) {
+                ErrorScreen.display("Velden", "Niet alle velden zijn ingevuld");
+            } else {
 
-            Stroom stroom = new Stroom(stroomTarief, tariefBeginDatum, tariefEindDatum);
-            controller.addStroomToEnergyTarieven(stroom);
+                double stroomTarief = Double.parseDouble(tfTariefStroom.getText());
+                double gasTarief = Double.parseDouble(tfTariefGas.getText());
+                LocalDate tariefBeginDatum = tfBeginDatum.getValue();
+                LocalDate tariefEindDatum = tfEindDatum.getValue();
 
-            Gas gas = new Gas(gasTarief,tariefBeginDatum,tariefEindDatum);
-            controller.addGasToEnergyTarieven(gas);
+                Stroom stroom = new Stroom(stroomTarief, tariefBeginDatum, tariefEindDatum);
+                controller.addStroomToEnergyTarieven(stroom);
 
+                Gas gas = new Gas(gasTarief, tariefBeginDatum, tariefEindDatum);
+                controller.addGasToEnergyTarieven(gas);
+            }
         });
 
         btnKlantRegScreen.setOnAction(goToKlant -> {

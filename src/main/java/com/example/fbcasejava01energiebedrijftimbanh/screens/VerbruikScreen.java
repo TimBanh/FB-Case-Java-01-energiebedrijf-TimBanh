@@ -66,15 +66,22 @@ public class VerbruikScreen {
         verbruikGrid.setAlignment(Pos.CENTER);
 
         sendVebruikInfo.setOnAction(verbruikReg-> {
-            double stroomInKwh =  Double.parseDouble(tfStroomPerkwh.getText());
-            double gasPerM3 = Double.parseDouble(tfGasPerM3.getText());
-            LocalDate startPeriode = tfDatumStart.getValue();
-            LocalDate eindPeriode = tfDatumEind.getValue();
+            if (tfGasPerM3.getText().isEmpty()
+                    || tfStroomPerkwh.getText().isEmpty()
+                    || tfDatumStart.getValue().toString().isEmpty()
+                    || tfDatumEind.getValue().toString().isEmpty()) {
+                ErrorScreen.display("Velden", "Niet alle velden zijn ingevuld");
+            } else {
 
-            Verbruik verbruik = new Verbruik(stroomInKwh,gasPerM3,startPeriode,eindPeriode);
+                double stroomInKwh = Double.parseDouble(tfStroomPerkwh.getText());
+                double gasPerM3 = Double.parseDouble(tfGasPerM3.getText());
+                LocalDate startPeriode = tfDatumStart.getValue();
+                LocalDate eindPeriode = tfDatumEind.getValue();
 
-            controller.addVerbruikToList(verbruik);
+                Verbruik verbruik = new Verbruik(stroomInKwh, gasPerM3, startPeriode, eindPeriode);
 
+                controller.addVerbruikToList(verbruik);
+            }
         });
 
         btnKlantRegScreen.setOnAction(goToKlant -> {
