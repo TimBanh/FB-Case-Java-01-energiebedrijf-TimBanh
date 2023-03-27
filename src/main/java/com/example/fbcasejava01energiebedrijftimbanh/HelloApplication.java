@@ -12,13 +12,14 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
-
+//    public attributen worden hier aangemaakt zodat ze aangeroepen kunnen worden in andere classen
     public static Stage stage;
     public static int globalWidth = 1200;
     public static int globalHeight = 650;
 
     public static HelloController controller = new HelloController();
-    public static ErrorScreen errorScreen = new ErrorScreen();
+
+//    De stage wordt gebouwd en de KlantRegScreen wordt mee gegeven als begin screen.
     @Override
     public void start(Stage stage) throws IOException {
         this.stage = stage;

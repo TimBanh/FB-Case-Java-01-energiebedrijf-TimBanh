@@ -18,20 +18,21 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 
 public class WekelijkVerbruikScreen {
-    private final Scene wekelijkVerbruikScene;
-    private HelloController controller = HelloApplication.controller;
+    private final Scene wekelijkVerbruikScene; // De scene wordt aangemaakt
+    private HelloController controller = HelloApplication.controller; //Shortcut naar de controller die gemaakt is in de HelloAplication class
 
     public WekelijkVerbruikScreen () {
+        //        Container wordt gemaakt om content er in te zetten.
         Pane container = new Pane();
         container.setPrefWidth(1200);
         container.setPrefHeight(650);
         container.setStyle("-fx-background-color: Orange");
-
+//      Gridpane wordt gemaakt voor de layout
         GridPane gridPane = new GridPane();
         gridPane.setId("wekelijkGrid");
         gridPane.setPrefWidth(HelloApplication.globalWidth-15);
         gridPane.setPrefHeight(HelloApplication.globalHeight-30);
-
+//      Alle labels om het WekelijkVerbruik te berekenen worden aangemaakt.
         Label lblBeginDatum = new Label("Begin Datum: ");
         DatePicker tfBeginDatum = new DatePicker();
 
@@ -64,13 +65,14 @@ public class WekelijkVerbruikScreen {
 
         Label lblStatusWekelijkVerbruik = new Label();
         lblStatusWekelijkVerbruik.setId("status");
-
+//      Buttons om een klant te vinden en te navigeren tussen schermen
         Button btnGetWeek = new Button("Kies Week");
         Button btnKlantRegScreen = new Button("Klanten");
         Button btnTariefScreen = new Button("Tarieven");
         Button btnVebruikScreen = new Button("Verbruik");
+//       Button om het WekelijkVerbruik te berekenen.
         Button btnCalcWekelijkVerbruik = new Button("Calculate");
-
+//      Alle labels en buttons worden aan de GridPane toegevoegd
         gridPane.add(lblBeginDatum,0,0);
         gridPane.add(tfBeginDatum,1,0);
         gridPane.add(lblEindDatum,0,1);
@@ -97,9 +99,9 @@ public class WekelijkVerbruikScreen {
         gridPane.add(btnTariefScreen,1,8);
         gridPane.add(btnVebruikScreen,2,8);
         gridPane.add(btnCalcWekelijkVerbruik,0,9);
-
+//      Alle content in de GridPane wordt gecentreerd.
         gridPane.setAlignment(Pos.CENTER);
-
+//      btnGetWeek checkt eerst of alle velden ingevuld zijn, zo ja worden de Klant, Tarieven en Verbruik displayed op de Scene
         btnGetWeek.setOnAction(getClasses -> {
             if (tfGetKlant.getText().isEmpty()
                     || tfBeginDatum.getValue().toString().isEmpty()
@@ -128,30 +130,30 @@ public class WekelijkVerbruikScreen {
                 lblVerbruikStroomResult.setText(Double.toString(verbruik.getStroomPerkwh()));
             }
         });
-
+//      btnKlantRegScreen navigeert naar het KlantRegScreen
         btnKlantRegScreen.setOnAction(goToKlant -> {
             HelloApplication.stage.setScene(new KlantRegScreen(HelloApplication.stage).getKlantReg());
         });
-
+//      btnTariefScreen navigeert naar het TarievenScreen
         btnTariefScreen.setOnAction(goToTarief -> {
             HelloApplication.stage.setScene(new TarievenScreen().getTarievenScene());
         });
-
+//      btnVerbruikScreen navigeert naar het VerbruikScreen
         btnVebruikScreen.setOnAction(goToVerbuik -> {
             HelloApplication.stage.setScene(new VerbruikScreen().getVerbruikScreen());
         });
-
+//      btnCalcWekelijkVerbruik haalt eerst de gegevens van de week op
         btnCalcWekelijkVerbruik.setOnAction(calcVerbruik -> {
             int klantNummer = Integer.parseInt(tfGetKlant.getText());
             Klant klant = controller.getKlantByNumber(klantNummer);
 
             LocalDate begindatum = tfBeginDatum.getValue();
             LocalDate eindatum = tfEindDatum.getValue();
-
+//      Het wekelijk verbruik wordt berekent en meegegeven als double
             double wekelijkVerbruik = controller.calculateWekelijksVerbruik(begindatum,eindatum,klantNummer);
 
             lblWekelijkVerbruikResult.setText(Double.toString(wekelijkVerbruik));
-
+//      Als het wekelijkVerbruik onder het jaar overschot zit van de Klant wordt dit displayed in het groen, zo niet wordt dit displayed in het rood.
             if (wekelijkVerbruik <= klant.getJaOverschot()) {
                 lblStatusWekelijkVerbruik.setText("Het verbruik zit onder het jaar overschot");
                 lblStatusWekelijkVerbruik.setStyle("-fx-text-fill: Green");
@@ -160,12 +162,14 @@ public class WekelijkVerbruikScreen {
                 lblStatusWekelijkVerbruik.setStyle("-fx-text-fill: Red");
             }
         });
-
+//      Scene wordt aangemaakt en de container met alle content wordt toegevoegd.
         wekelijkVerbruikScene = new Scene(container);
+        //        Stylesheet wordt gekoppeld.
         wekelijkVerbruikScene.getStylesheets().add(HelloApplication.class.getResource("stylesheet/stylesheet.css").toString());
+        //        container wordt gevuld met de GridPane met alle Labels en Buttons
         container.getChildren().add(gridPane);
     }
-
+    //      De methode returned de WekelijkVerbruikScreen.
     public Scene getWekelijkVerbruik() {
         return wekelijkVerbruikScene;
     }

@@ -17,20 +17,21 @@ import java.time.LocalDate;
 
 public class TarievenScreen {
 
-    private final Scene tarievenScene;
-    private HelloController controller = HelloApplication.controller;
+    private final Scene tarievenScene; // De scene wordt aangemaakt;
+    private HelloController controller = HelloApplication.controller; //Shortcut naar de controller die gemaakt is in de HelloAplication class
 
     public TarievenScreen() {
+        //        Container wordt gemaakt om content er in te zetten.
         Pane tariefContainer = new Pane();
         tariefContainer.setStyle("-fx-background-color: yellow");
         tariefContainer.setPrefWidth(1200);
         tariefContainer.setPrefHeight(650);
-
+//        Gridpane wordt gemaakt voor de layout
         GridPane tariefGrid = new GridPane();
         tariefGrid.setId("tariefGrid");
         tariefGrid.setPrefWidth(HelloApplication.globalWidth-15);
         tariefGrid.setPrefHeight(HelloApplication.globalHeight-30);
-
+//      Alle labels om Tarieven toe te voegen voor stroom en gas.
         Label lblTariefStroom = new Label("Tarief Stroom: ");
         TextField tfTariefStroom = new TextField();
 
@@ -42,12 +43,12 @@ public class TarievenScreen {
 
         Label lblEindDatum = new Label("Eind Datum: ");
         DatePicker tfEindDatum = new DatePicker();
-
+//      Buttons om Tarieven toe te voegen en te navigeren tussen schermen
         Button sendTarief = new Button("Zend");
         Button btnVebruikScreen = new Button("Verbruik");
         Button btnKlantRegScreen = new Button("Klanten");
         Button btnWekelijksVerbruik = new Button("Wekelijks Verbruik");
-
+//      Alle labels en buttons worden aan de GridPane toegevoegd
         tariefGrid.add(lblTariefStroom, 0,0);
         tariefGrid.add(tfTariefStroom,1,0);
         tariefGrid.add(lblTariefGas,0,1);
@@ -60,9 +61,9 @@ public class TarievenScreen {
         tariefGrid.add(btnKlantRegScreen,1,4);
         tariefGrid.add(btnVebruikScreen,2,4);
         tariefGrid.add(btnWekelijksVerbruik,3,4);
-
+//      Alle content in de GridPane wordt gecentreerd.
         tariefGrid.setAlignment(Pos.CENTER);
-
+//      Button sendTarief checkt of alle velden ingevuld zijn en voegt de Tarieven toe in een ArrayList als alle gegevens ingevuld zijn.
         sendTarief.setOnAction(regTarief -> {
             if (tfTariefGas.getText().isEmpty()
                 || tfTariefStroom.getText().isEmpty()
@@ -83,26 +84,28 @@ public class TarievenScreen {
                 controller.addGasToEnergyTarieven(gas);
             }
         });
-
+//      btnKlantRegScreen navigeert naar het KlantRegScreen
         btnKlantRegScreen.setOnAction(goToKlant -> {
             HelloApplication.stage.setScene(new KlantRegScreen(HelloApplication.stage).getKlantReg());
         });
-
+//      btnVerbruikScreen navigeert naar het VerbruikScreen
         btnVebruikScreen.setOnAction(goToVerbuik -> {
             HelloApplication.stage.setScene(new VerbruikScreen().getVerbruikScreen());
         });
-
+//        btnWekelijksVerbruikScreen navigeert naar het WekelijkVerbruikScreen
         btnWekelijksVerbruik.setOnAction(goToWekelijkVerbruik -> {
             HelloApplication.stage.setScene(new WekelijkVerbruikScreen().getWekelijkVerbruik());
 
         });
-
+//      Scene wordt aangemaakt en de container met alle content wordt toegevoegd.
         tarievenScene = new Scene(tariefContainer);
+        //        Stylesheet wordt gekoppeld.
         tarievenScene.getStylesheets().add(HelloApplication.class.getResource("stylesheet/stylesheet.css").toString());
+        //        container wordt gevuld met de GridPane met alle Labels en Buttons
         tariefContainer.getChildren().add(tariefGrid);
 
     }
-
+    //      De methode returned de tarievenScen.
     public Scene getTarievenScene() {
         return tarievenScene;
     }

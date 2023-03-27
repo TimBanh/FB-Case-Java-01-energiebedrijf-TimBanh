@@ -18,21 +18,22 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 
 public class VerbruikScreen {
-    private final Scene verbruikScene;
+    private final Scene verbruikScene; // De scene wordt aangemaakt
 
-    private HelloController controller = HelloApplication.controller;
+    private HelloController controller = HelloApplication.controller;//Shortcut naar de controller die gemaakt is in de HelloAplication class
 
     public VerbruikScreen() {
+        //        Container wordt gemaakt om content er in te zetten.
         Pane container = new Pane();
         container.setPrefWidth(1200);
         container.setPrefHeight(650);
         container.setStyle("-fx-background-color: pink");
-
+//      Gridpane wordt gemaakt voor de layout
         GridPane verbruikGrid = new GridPane();
         verbruikGrid.setId("verbruikGrid");
         verbruikGrid.setPrefWidth(HelloApplication.globalWidth-15);
         verbruikGrid.setPrefHeight(HelloApplication.globalHeight-30);
-
+//      Alle labels om het Verbruik te maken worden aangemaakt.
         Label lblStroomPerKwh = new Label("Stroom in kwh: ");
         TextField tfStroomPerkwh = new TextField();
 
@@ -44,12 +45,12 @@ public class VerbruikScreen {
 
         Label lblDatumEind = new Label("Datum eindperiode: ");
         DatePicker tfDatumEind = new DatePicker();
-
+//      Buttons om het Verbruik toe te voegen en te navigeren tussen schermen
         Button sendVebruikInfo = new Button("Zend");
         Button btnKlantRegScreen = new Button("Klanten");
         Button btnTariefScreen = new Button("Tarieven");
         Button btnWekelijksVerbruik = new Button("Wekelijks Verbruik");
-
+//      Alle labels en buttons worden aan de GridPane toegevoegd
         verbruikGrid.add(lblStroomPerKwh,0,0);
         verbruikGrid.add(tfStroomPerkwh,1,0);
         verbruikGrid.add(lblGasPerM3,0,1);
@@ -62,9 +63,9 @@ public class VerbruikScreen {
         verbruikGrid.add(btnKlantRegScreen,1,4);
         verbruikGrid.add(btnTariefScreen,2,4);
         verbruikGrid.add(btnWekelijksVerbruik,3,4);
-
+//      Alle content in de GridPane wordt gecentreerd.
         verbruikGrid.setAlignment(Pos.CENTER);
-
+//      Button sendVerbruikInfo checkt of alle velden ingevuld zijn en voegt het Verbruik toe in een ArrayList als alle gegevens ingevuld zijn.
         sendVebruikInfo.setOnAction(verbruikReg-> {
             if (tfGasPerM3.getText().isEmpty()
                     || tfStroomPerkwh.getText().isEmpty()
@@ -83,24 +84,26 @@ public class VerbruikScreen {
                 controller.addVerbruikToList(verbruik);
             }
         });
-
+//      btnKlantRegScreen navigeert naar het KlantRegScreen
         btnKlantRegScreen.setOnAction(goToKlant -> {
             HelloApplication.stage.setScene(new KlantRegScreen(HelloApplication.stage).getKlantReg());
         });
-
+//      btnTariefScreen navigeert naar het TarievenScreen
         btnTariefScreen.setOnAction(goToTarief -> {
             HelloApplication.stage.setScene(new TarievenScreen().getTarievenScene());
         });
-
+//      btnWekelijksVerbruik navigeert naar het WekelijkVerbruikScreen
         btnWekelijksVerbruik.setOnAction(wekelijkVerbruikScreen -> {
             HelloApplication.stage.setScene(new WekelijkVerbruikScreen().getWekelijkVerbruik());
         });
-
+//      Scene wordt aangemaakt en de container met alle content wordt toegevoegd.
         verbruikScene = new Scene(container);
+        //        Stylesheet wordt gekoppeld.
         verbruikScene.getStylesheets().add(HelloApplication.class.getResource("stylesheet/stylesheet.css").toString());
+        //        container wordt gevuld met de GridPane met alle Labels en Buttons
         container.getChildren().add(verbruikGrid);
     }
-
+    //      De methode returned de verbruikScene.
     public Scene getVerbruikScreen() {
         return verbruikScene;
     }
