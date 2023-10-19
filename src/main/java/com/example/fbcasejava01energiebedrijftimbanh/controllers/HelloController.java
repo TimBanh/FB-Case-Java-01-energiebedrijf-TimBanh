@@ -181,7 +181,7 @@ public class HelloController {
         double wekelijkGasVerbruik = verbruik.getGasPerM3() * gas.getTarief();
         double wekelijkStroomVerbruik = verbruik.getStroomPerkwh() * stroom.getTarief();
         // Het wekelijkVerbruik wordt hier berekent.
-        wekelijkVerbruik = klantJaOverschot - (wekelijkGasVerbruik + wekelijkStroomVerbruik);
+        wekelijkVerbruik = wekelijkGasVerbruik + wekelijkStroomVerbruik;
         // Als het wekelijkVerbruik onder het jaar overschot van de Klant zit, wordt dit aangeven.
         if (wekelijkVerbruik <= klant.getJaOverschot()) {
             System.out.println("Klant verbruik is onder het jaar overschot");
