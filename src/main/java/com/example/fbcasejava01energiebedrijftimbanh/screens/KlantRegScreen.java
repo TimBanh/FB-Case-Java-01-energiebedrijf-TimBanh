@@ -73,7 +73,7 @@ public class KlantRegScreen {
                 double jaarlijkVoorschot = Double.parseDouble(tfJaVoorschot.getText());
 
                 Klant klant = new Klant(klantNr, voorNm, achterNm, jaarlijkVoorschot);
-                controller.addKlantToList(klant);
+                controller.addKlantToDB(klant);
             }
         });
 //      btnTariefScreen navigeert naar het TarievenScreen

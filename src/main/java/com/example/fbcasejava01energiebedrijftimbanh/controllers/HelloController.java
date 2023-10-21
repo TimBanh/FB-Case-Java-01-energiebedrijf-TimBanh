@@ -6,36 +6,41 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 // Controller klasse die alle logica en berekeningen handelt.
 public class HelloController {
+    private MysqlConnector mysqlConnector = new  MysqlConnector();
     // Arraylist van objecten om de objecten op te slaan.
     private ArrayList<Klant>klantenLijst = new ArrayList<Klant>();
     private ArrayList<Energie> energieTarieven = new ArrayList<Energie>();
     private ArrayList<Verbruik> verbruikLijst = new ArrayList<Verbruik>();
     private double wekelijkVerbruik;
-    //Methode om Klant objecten toe te voegen aan de "klantelijst" ArrayList
-    public void addKlantToList(Klant klant){
+    //Methode om Klant objecten toe te voegen aan de "klantelijst" tabel
+    public void addKlantToDB(Klant klant){
         // Checkt of de klantenlijst leeg is. Zo ja, wordt het Klant object gelijk toegevoegd
+        klantenLijst = mysqlConnector.getAllKlanten();
         if (klantenLijst.isEmpty()) {
-            klantenLijst.add(klant);
+            mysqlConnector.addKlant(klant);
             System.out.println(klantenLijst);
             return;
         }
-        // Checkt alle Klant objecten in de klantenlijst op Klantnummer om te kijken of de klant al bestaat. Zo niet, wordt deze toegevoegd aan de ArrayList.
-        for (Klant klanten: klantenLijst) {
-            if (klant.getKlantnummer() == klanten.getKlantnummer()) {
+        // Checkt alle Klant objecten in de klantenlijst op Klantnummer om te kijken of de klant al bestaat. Zo niet, wordt deze toegevoegd aan de DB.
+        for (Klant k : klantenLijst) {
+            if (k.getKlantnummer() == klant.getKlantnummer()) {
                 System.out.println("Klant bestaat al");
+                break;
             } else {
-                klantenLijst.add(klant);
-                System.out.println(klantenLijst);
+                mysqlConnector.addKlant(klant);
+                System.out.println("Klant toegevoegd");
                 break;
             }
         }
     }
     // Methode om Gas objecten toe te voegen aan de "energieTarieven" ArrayList
     public void addGasToEnergyTarieven(Gas gas) {
+        energieTarieven = mysqlConnector.getAllEnergie();
         // Checkt of de energieTarieven ArrayList leeg. Zo ja, wordt het Gas object gelijk toegevoegd
         if (energieTarieven.isEmpty()) {
-            energieTarieven.add(gas);
-            System.out.println(energieTarieven);
+            mysqlConnector.addEnergie(gas, "gas");
+            System.out.println("Gas toegevoegd aan energie");
+//            System.out.println(energieTarieven);
             return;
         }
         //Checkt alle Energie objecten in energieTarieven of het een Gas object is en of de datums overeen komen. Zo ja, worden er aangegeven dat het Gas object al bestaat.
@@ -46,15 +51,16 @@ public class HelloController {
             }
         }
         // Als het Gas object nog niet bestaat, wordt het toegevoegd aan energieTarieven.
-        energieTarieven.add(gas);
-        System.out.println(energieTarieven);
+        mysqlConnector.addEnergie(gas, "gas");
+        System.out.println("Gas toegevoegd aan energie");
     }
     // Methode om Stroom objecten toe te voegen aan de "energieTarieven" ArrayList
     public void addStroomToEnergyTarieven(Stroom stroom) {
+        energieTarieven = mysqlConnector.getAllEnergie();
         // Checkt of de energieTarieven ArrayList leeg. Zo ja, wordt het Stroom object gelijk toegevoegd
         if (energieTarieven.isEmpty()) {
-            energieTarieven.add(stroom);
-            System.out.println(energieTarieven);
+            mysqlConnector.addEnergie(stroom, "stroom");
+            System.out.println("Stroom toegevoegd aan energie");
             return;
         }
         //Checkt alle Energie objecten in energieTarieven of het een Stroom object is en of de datums overeen komen. Zo ja, worden er aangegeven dat het Stroom object al bestaat.
@@ -65,8 +71,8 @@ public class HelloController {
             }
         }
         // Als het Stroom object nog niet bestaat, wordt het toegevoegd aan energieTarieven.
-        energieTarieven.add(stroom);
-        System.out.println(energieTarieven);
+        mysqlConnector.addEnergie(stroom, "stroom");
+        System.out.println("Stroom toegevoegd aan energie");
     }
     // Methode om Verbruik objecten toe te voegen aan de verbruikLijst ArrayList.
     public void addVerbruikToList(Verbruik verbruik){

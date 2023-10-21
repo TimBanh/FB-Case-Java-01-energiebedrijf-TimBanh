@@ -1,6 +1,7 @@
 package com.example.fbcasejava01energiebedrijftimbanh.models;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class Energie {
     // attributen van de Energie klasse.
