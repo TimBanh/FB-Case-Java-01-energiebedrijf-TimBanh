@@ -18,7 +18,7 @@ public class HelloController {
         klantenLijst = mysqlConnector.getAllKlanten();
         if (klantenLijst.isEmpty()) {
             mysqlConnector.addKlant(klant);
-            System.out.println(klantenLijst);
+            System.out.println("Klant toegevoegd");
             return;
         }
         // Checkt alle Klant objecten in de klantenlijst op Klantnummer om te kijken of de klant al bestaat. Zo niet, wordt deze toegevoegd aan de DB.
@@ -75,27 +75,29 @@ public class HelloController {
         System.out.println("Stroom toegevoegd aan energie");
     }
     // Methode om Verbruik objecten toe te voegen aan de verbruikLijst ArrayList.
-    public void addVerbruikToList(Verbruik verbruik){
+    public void addVerbruikToDB(Verbruik verbruik){
+        verbruikLijst = mysqlConnector.getAllVerbruik();
         // Checkt of de verberuikLijst ArrayList leeg. Zo ja, wordt het Verbruik object gelijk toegevoegd
         if (verbruikLijst.isEmpty()) {
-            verbruikLijst.add(verbruik);
-            System.out.println(verbruikLijst);
+            mysqlConnector.addVerbruik(verbruik);
+            System.out.println("Verbruik is toegevoegd");
             return;
         }
         //Checkt alle Verbruik objecten in de verbruikLijst op beginDatum en eindDatum om te kijken of het object al bestaat. Zo ja, worden er aangegeven dat het Stroom object al bestaat.
         for (Verbruik verbruiken: verbruikLijst) {
-            if (verbruik.getBegindatum() == verbruiken.getBegindatum() && verbruik.getEindDatum() == verbruiken.getEindDatum()) {
+            if (verbruik.getBegindatum().equals(verbruiken.getBegindatum()) && verbruik.getEindDatum().equals(verbruiken.getEindDatum())) {
                 System.out.println("Verbruik bestaat al");
             } else {
                 // Als het object nog niet bestaat, wordt het toegevoegd aan de verbruikLijst
-                verbruikLijst.add(verbruik);
-                System.out.println(verbruikLijst);
+                mysqlConnector.addVerbruik(verbruik);
+                System.out.println("Verbruik is toegevoegd");
                 break;
             }
         }
     }
     // Methode om Klant objecten te vinden door te filteren op klantnummer
     public Klant getKlantByNumber(int klantNummer) {
+        klantenLijst = mysqlConnector.getAllKlanten();
         // Als de klantenLijst leeg is, wordt dit aangegeven.
         if (klantenLijst.isEmpty()) {
             System.out.println("Klantenlijst is leeg");
@@ -115,6 +117,7 @@ public class HelloController {
 
     // Methode om Gas objecten te filteren op beginDatum en eindDatum
     public Gas getGasTariefByWeek(LocalDate begindatum, LocalDate eindDatum) {
+        energieTarieven = mysqlConnector.getAllEnergie();
         // Als energieTarieven leeg is, wordt dit aangegeven.
         if (energieTarieven.isEmpty()) {
             System.out.println("Energie tarieven is leeg");
@@ -139,6 +142,7 @@ public class HelloController {
     }
     // Zelfde methode als getGasTariefByWeek maar dan voor Stroom objecten.
     public Stroom getStroomTariefByWeek(LocalDate begindatum, LocalDate eindDatum) {
+        energieTarieven = mysqlConnector.getAllEnergie();
         if (energieTarieven.isEmpty()) {
             System.out.println("Energie tarieven is leeg");
         }
@@ -162,6 +166,7 @@ public class HelloController {
     }
     // Methode om Verbruik objecten te vinden in de verbruikLijst op basis van beginDatum en eindDatum.
     public Verbruik getVerbruikByWeek(LocalDate beginDatum, LocalDate eindDatum) {
+        verbruikLijst = mysqlConnector.getAllVerbruik();
         // Als verbruikLijst leeg is,wordt dit aangegeven.
         if (verbruikLijst.isEmpty()) {
             System.out.println("Verbruik is leeg");
@@ -189,7 +194,7 @@ public class HelloController {
         // Het wekelijkVerbruik wordt hier berekent.
         wekelijkVerbruik = wekelijkGasVerbruik + wekelijkStroomVerbruik;
         // Als het wekelijkVerbruik onder het jaar overschot van de Klant zit, wordt dit aangeven.
-        if (wekelijkVerbruik <= klant.getJaOverschot()) {
+        if (wekelijkVerbruik <= klantJaOverschot) {
             System.out.println("Klant verbruik is onder het jaar overschot");
             return wekelijkVerbruik;
         }

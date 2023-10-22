@@ -81,7 +81,7 @@ public class VerbruikScreen {
 
                 Verbruik verbruik = new Verbruik(stroomInKwh, gasPerM3, startPeriode, eindPeriode);
 
-                controller.addVerbruikToList(verbruik);
+                controller.addVerbruikToDB(verbruik);
             }
         });
 //      btnKlantRegScreen navigeert naar het KlantRegScreen
